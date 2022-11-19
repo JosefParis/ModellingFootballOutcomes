@@ -3,16 +3,16 @@ model {
 for (g in 1:ngames) {
 
 # Observed number of expected goals scored by each team
-y.home[g] ~ dpois(theta[g,1])
-y.away[g] ~ dpois(theta[g,2])
+y1[g] ~ dpois(theta[g,1])
+y2[g] ~ dpois(theta[g,2])
 
-# Predictive distribution for the number of expected goals
+# Predictive distribution for the number of goals
 y.pred[g,1] ~ dpois(theta[g,1])
 y.pred[g,2] ~ dpois(theta[g,2])
 
 # Average Scoring intensities (accounting for mixing components)
-log(theta[g,1]) <- home + att[team_home_index[g]] + def[team_away_index[g]]
-log(theta[g,2]) <- att[team_away_index[g]] + def[team_home_index[g]]
+log(theta[g,1]) <- home + att[hometeam[g]] + def[awayteam[g]]
+log(theta[g,2]) <- att[awayteam[g]] + def[hometeam[g]]
 }
 
 # 1. BASIC MODEL FOR THE HYPERPARAMETERS
@@ -29,7 +29,10 @@ def[t] <- def.star[t] - mean(def.star[])
 }
 
 # priors on the random effects
-mu.att ~ dnorm(0,0.0001)
-mu.def ~ dnorm(0,0.0001)
-tau.att ~ dgamma(.01,.01)
-tau.def ~ dgamma(.01,.01)
+mu.att ~ 1
+mu.def ~ 1
+tau.att ~ 0.0001
+tau.def ~ 0.0001
+
+}
+
