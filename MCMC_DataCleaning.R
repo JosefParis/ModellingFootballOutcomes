@@ -31,7 +31,6 @@ EPL <- stats_per_game[stats_per_game$league == 'EPL',]
 
 
 
-
 home_team_join <- EPL[EPL$home == '1',]
 away_team_join <- EPL[EPL$home == '0',]
 
@@ -59,7 +58,7 @@ away_team_join <- rename(away_team_join,
                          goals_home = missed,
                          away_points = pts)
 
-EPL <- merge(home_team_join, away_team_join)
+   EPL <- merge(home_team_join, away_team_join)
 
 drop_columns <- c('h_a','npxG', 'npxGA', 'deep', 'deep_allowed', 'result', 'wins', 'draws', 'loses', 'npxGD', 'home', 'xpts',
                   'ppda_coef', 'ppda_att', 'ppda_def', 'oppda_coef', 'oppda_att', 'oppda_def', 'xG_diff', 'xGA_diff', 'xpts_diff')
@@ -72,6 +71,5 @@ column_names <- c('league','team_home', 'team_away', 'goals_home', 'goals_away',
 EPL <- EPL[, column_names]
 EPL <- EPL[order(EPL$date),]
 
-
-print(sort(unique(EPL$team_home)))
+write.csv(EPL, file = 'EPL.csv')
 
