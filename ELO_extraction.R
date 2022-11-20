@@ -1,4 +1,6 @@
 # Using readr package
+rm(list=ls())
+
 if(!require('timetk')) {
   install.packages('timetk')
   library('timetk')
@@ -18,10 +20,14 @@ PremierLeague_ELO <- filter(Club_ELO, To > '1992-08-01')
 PremierLeague_dataset_ELO <- filter(PremierLeague_ELO, To > '2014-08-01' & To < '2020-08-01')
 
 rm(Club_ELO)
+rm(list_csv_files)
 
 ELO_vars <- c('Club', 'Elo', 'To')
-
 ELO_join <- PremierLeague_dataset_ELO[ELO_vars]
+
+rm(ELO_vars)
+rm(PremierLeague_dataset_ELO)
+rm(PremierLeague_ELO)
 
 ELO_join['Club'][ELO_join['Club'] == 'QPR'] <- 'Queens Park Rangers'
 ELO_join['Club'][ELO_join['Club'] == 'Man City'] <- 'Manchester City'
@@ -44,7 +50,12 @@ EPL <- readr::read_csv('EPL_corrected.csv')
 EPL <- mutate(EPL, date = as.Date(date, format = '%d/%m/%Y'))
 
 EPL_ELO <- merge(EPL, ELO_join_home, by = c('team_home','date'))
-EPL_ELO_away <- merge(EPL_ELO, ELO_join_away, by = c('team_away','date'))
+EPL_ELO <- merge(EPL_ELO, ELO_join_away, by = c('team_away','date'))
+
+rm(ELO_join)
+rm(ELO_join_away)
+rm(ELO_join_home)
+rm(EPL_ELO_away)
 
 EPL %>% count(season)
 EPL_ELO %>% count(season)
