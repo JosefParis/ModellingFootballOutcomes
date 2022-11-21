@@ -52,13 +52,9 @@ EPL <- mutate(EPL, date = as.Date(date, format = '%d/%m/%Y'))
 EPL_ELO <- merge(EPL, ELO_join_home, by = c('team_home','date'))
 EPL_ELO <- merge(EPL_ELO, ELO_join_away, by = c('team_away','date'))
 
+EPL_ELO <- mutate(EPL_ELO, elo_difference = elo_home - elo_away)
+
+
 rm(ELO_join)
 rm(ELO_join_away)
 rm(ELO_join_home)
-rm(EPL_ELO_away)
-
-EPL %>% count(season)
-EPL_ELO %>% count(season)
-
-
-
